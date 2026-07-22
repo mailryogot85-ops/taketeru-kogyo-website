@@ -1,0 +1,1018 @@
+/* サイト全体の基本設定 */
+body {
+    font-family: sans-serif; /* シンプルなフォント */
+    margin: 0; /* ブラウザ特有の余白を消す */
+    background-color: #f9f9f9; /* 背景をほんのり明るいグレーに */
+    color: #333333; /* 文字色を濃いグレーに */
+}
+/* --- ヘッダー・ロゴ・スライドの階層構造を確定 --- */
+
+/* --- 1. ヘッダー全体のベース --- *//* --- 1. ヘッダー全体のベース（最重要：相対配置の基準） --- */
+/* --- 1. ヘッダー全体のベース（高さ固定） --- */
+header {
+    position: relative; /* スライドとロゴの基準 */
+    width: 100%;
+    height: 250px; /* スライドエリアの高さ */
+    overflow: hidden;
+    z-index: 10;
+}
+
+/* --- 2. スライド背景（最背面：z-index=1） --- */
+.slide-background {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+}
+
+/* 各スライド画像 */
+.slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    animation: fadeSlides 15s infinite;
+}
+
+/* --- 3. ジャンプボタン（中間層：z-index=50） --- */
+.slide-link {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    z-index: 50; /* スライドより前、ロゴより後ろ */
+    text-decoration: none;
+}
+
+/* --- 4. ロゴエリア（最前面：z-index=100） --- */
+.header-content {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    pointer-events: none; /* 下のボタンをクリックできるように透過 */
+}
+
+/* ロゴのリンク部分 */
+.header-content h1, 
+.header-content h1 a {
+    margin: 0;
+    padding: 0;
+    pointer-events: auto; /* ロゴ自体はクリック可能に */
+}
+
+header h1 img {
+    max-height: 120px; 
+    width: auto;
+    filter: drop-shadow(0px 0px 8px rgba(255,255,255,0.6));
+}
+
+/* --- 5. 【重要】タブUI（ナビゲーション）の設定 --- */
+/* ここが潜り込まないように position: relative にします */
+/* --- ナビゲーションエリア（余白の除去と色の修正） --- */
+/* --- ナビゲーション（タブ）エリアの余白修正 --- */
+.main-nav {
+    position: relative;
+    z-index: 200;
+    background-color: #f0f5f0; 
+    border-bottom: 2px solid #058f45;
+    
+    /* ↓↓ 上下の外側余白を完全にゼロにします ↓↓ */
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding: 0;
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 0;
+    /* ↓↓ タブ自体の高さを維持しつつ、上下の隙間を最小限に（お好みで 5px〜10px） ↓↓ */
+    padding: 8px 0; 
+}
+
+.main-nav ul li a {
+    color: #333333;
+    text-decoration: none;
+    font-weight: bold;
+    /* ↓ サイズを 1.1rem から 0.95rem 〜 1rem 程度に落とします */
+    font-size: 1rem; 
+    display: inline-block;
+    /* ↓ 左右の余白を 25px から 15px 程度に絞ります */
+    padding: 8px 15px; 
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    /* ↓ 文字が途中で改行されないように固定 */
+    white-space: nowrap; 
+}
+
+/* ★修正：マウスを当てた時（ホバー）の色を濃い緑に ★ */
+.main-nav ul li a:hover {
+    background-color: #a2d0b8; /* 濃い緑（企業のイメージカラー） */
+    color: #ffffff;           /* 文字は白に反転 */
+}
+
+/* 選択されているタブの状態 */
+.main-nav ul li a.active-tab {
+    background-color: #058f45;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* --- 5. アニメーション定義（z-indexをいじらない） --- */
+@keyframes fadeSlides {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    30% { opacity: 1; }
+    40% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* 各スライド画像の基本設定 */
+.slide {
+    position: absolute; /* .slide-backgroundを基準にして絶対配置 */
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* 画像の中央で表示する */
+    background-size: cover;
+    background-position: center;
+    
+    /* 最初は透明にしておく */
+    opacity: 0;
+    
+    /* ↓↓↓ アニメーションの適用 ↓↓↓ */
+    /* 全画像で同じアニメーション(fadeSlides)を、15秒かけて、無限に繰り返す */
+    animation: fadeSlides 15s infinite;
+}
+
+/* 各スライド画像の個別設定（仮の画像URLを使用します） */
+.slide1 {
+    /* 工場の外観のイメージ */
+    background-image: url('slide1.png');
+    /* アニメーションの遅延時間（1枚目はすぐ表示） */
+    animation-delay: 0s;
+}
+.slide2 {
+    /* 製造現場のイメージ（溶接など） */
+    background-image: url('slide2.png');
+    /* 2枚目は全時間の1/3経過したタイミングでフェードインさせる */
+    animation-delay: 5s;
+}
+.slide3 {
+    /* 完成した金属製品のイメージ */
+    background-image: url('slide3.png');
+    /* 3枚目は全時間の2/3経過したタイミングでフェードインさせる */
+    animation-delay: 10s;
+}
+
+/* ↓↓↓ アニメーションの定義（これが魔法です） ↓↓↓ */
+@keyframes fadeSlides {
+    0% {
+        opacity: 0;
+        z-index: 1; /* 背面へ */
+    }
+    /* フェードイン開始 */
+    5% {
+        z-index: 10; /* 手前へ持ってくる */
+    }
+    10% {
+        opacity: 1;
+        z-index: 10;
+    }
+    30% {
+        opacity: 1;
+        z-index: 10;
+    }
+    /* フェードアウト開始 */
+    35% {
+        z-index: 1; /* 次のスライドに譲るために背面へ */
+    }
+    40% {
+        opacity: 0;
+        z-index: 1;
+    }
+    100% {
+        opacity: 0;
+        z-index: 1;
+    }
+}
+
+/* メインコンテンツのデザイン */
+main {
+    max-width: 800px; /* 横幅が広がりすぎないように制限 */
+    margin: 20px auto; /* 画面の中央に配置 */
+    padding: 20px;
+    background-color: white; /* メイン部分の背景は白に */
+    border-radius: 8px; /* 角を少し丸くする */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 少しだけ影をつけて浮かせる */
+}
+
+/* --- ナビゲーションメニューのデザイン --- */
+nav ul {
+    list-style: none; /* 左側の「・」を消す */
+    padding: 0;
+    margin-top: 20px;
+    display: flex; /* これが要素を「横並び」にする最強のプロパティです */
+    justify-content: center; /* 真ん中に集める */
+    gap: 30px; /* メニュー同士の隙間をあける */
+}
+
+/* メニューのリンク（aタグ）の装飾 */
+nav ul li a {
+    color: #333333; /* デフォルトの青色を消してグレーにする */
+    text-decoration: none; /* 下線を消す */
+    font-weight: bold; /* 文字を太くする */
+    transition: color 0.3s; /* 色が変わる時にフワッとさせる */
+}
+
+/* マウスが乗った時（hover）の動き */
+nav ul li a:hover {
+    color: #058f45; /* マウスが乗ったら緑色にする */
+}
+
+/* --- フッター（一番下）のデザイン --- */
+footer {
+    background-color: #333333; /* 暗いグレーで引き締める */
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px; /* メインコンテンツとの間に余白を作る */
+}
+
+/* --- メインコンテンツ内の装飾 --- */
+
+/* 大見出し（h2）のデザイン */
+main h2 {
+    color: #058f45; /* ヘッダーと同じ青色で統一感を出す */
+    border-bottom: 2px solid #058f45; /* 下線を引く */
+    padding-bottom: 5px; /* 文字と下線の間の隙間 */
+    margin-top: 40px; /* 上の要素との隙間 */
+}
+
+/* 小見出し（h3）のデザイン */
+main h3 {
+    color: #333333;
+    border-left: 5px solid #058f45; /* 左側にアクセントの直線を引く */
+    padding-left: 10px; /* 線と文字の隙間 */
+}
+
+/* 事業内容のリスト（箇条書き） */
+.services ul {
+    line-height: 1.8; /* 行間を少し広げて読みやすくする */
+}
+
+/* 会社概要のテーブル（表）のデザイン */
+.info-table {
+    width: 100%; /* 表の幅をいっぱいに広げる */
+    border-collapse: collapse; /* セル同士の隙間をなくして1本の線にする */
+    margin-top: 15px;
+}
+
+.info-table th, .info-table td {
+    border: 1px solid #cccccc; /* 薄いグレーの枠線 */
+    padding: 12px; /* セルの中の余白 */
+}
+
+.info-table th {
+    background-color: #b7ecc4; /* 見出しセル（左側）だけ薄い青色にする */
+    width: 30%; /* 見出しの幅を固定 */
+    text-align: left; /* 文字を左揃えに */
+}
+
+/* --- ロゴのデザイン設定 --- */
+
+/* h1の中にあるリンク区域の設定 */
+header h1 a {
+    display: block; /* リンクエリアをロゴ画像全体に広げる */
+    line-height: 0; /* 画像の下にできる謎の隙間を消す */
+    margin-bottom: 20px; /* ロゴとメニューの間に余白を作る */
+}
+
+/* h1の中にある画像自体の設定 */
+header h1 img {
+    /* ↓↓↓ ここを変更 ↓↓↓ */
+    max-height: 120px; /* ロゴの【高さ】の上限を大きくする（例：60pxから120pxへ） */
+    /* ↑↑↑ ここを変更 ↑↑↑ */
+    
+    width: auto;      /* 横幅は高さに合わせて自動調整 */
+    vertical-align: middle; /* 垂直方向（上下）の中央に配置 */
+}
+
+/* --- スライドショーの文字オーバーレイ --- */
+
+/* --- スライドショーのジャンプボタンUI --- */
+
+.slide-link {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    text-decoration: none;
+    /* スライド画像のアニメーション中の z-index より高い値にする */
+    z-index: 100; 
+}
+
+.slide-jump-button {
+    display: inline-block;
+    color: white;
+    font-family: sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    padding: 12px 30px;
+    border: 1px solid rgba(255, 255, 255, 0.8); /* 細くシャープな白枠 */
+    position: relative;
+    overflow: hidden; /* はみ出た背景色を隠す */
+    transition: color 0.4s ease;
+    background-color: rgba(0, 0, 0, 0.2); /* わずかに背景を暗くして文字を浮かせる */
+    backdrop-filter: blur(4px); /* 背景をボカして高級感を出す */
+}
+
+/* ホバー時に広がる背景（擬似要素） */
+.slide-jump-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%; /* 最初は左側に隠しておく */
+    width: 100%;
+    height: 100%;
+    background-color: #058f45; /* 竹輝工業のイメージカラー（緑） */
+    transition: left 0.4s ease;
+    z-index: -1; /* 文字の裏側に */
+}
+
+/* ★ホバー（マウスを乗せた時）の動き★ */
+.slide-link:hover .slide-jump-button {
+    color: white; /* 文字色は白のまま */
+    border-color: #058f45; /* 枠の色も緑に */
+}
+
+/* マウスを乗せた時、その中にある .slide-jump-button に対して背景を動かす */
+.slide-link:hover .slide-jump-button::before {
+    left: 0;
+}
+
+/* テキストの色も白のまま維持する設定 */
+.slide-link:hover .slide-jump-button {
+    color: white;
+    border-color: #058f45;
+}
+
+/* --- スライドショーの文字オーバーレイ --- */
+
+/* クリックエリア全体（aタグ）の設定 */
+.slide-link {
+    position: absolute;
+    bottom: 30px; /* 右下からの位置を調整 */
+    
+    /* ↓↓↓ ここを変更 ↓↓↓ */
+    right: 30px;   /* 左（left）から右（right）に変更 */
+    /* ↑↑↑ ここを変更 ↑↑↑ */
+    
+    text-decoration: none; /* リンクの下線を消す */
+    display: block; /* クリックエリアをテキスト全体に広げる */
+    z-index: 5;    /* メインヘッダーコンテンツ（z-index: 10）よりも後ろだが、スライド画像の上 */
+}
+
+/* 文字エリア全体（タイトルとアイコン）の設定 */
+.slide-caption {
+    color: white; /* 文字色を白に */
+    
+    /* ↓↓↓ ここを追加：タイトルとアイコンを横並びにする ↓↓↓ */
+    display: flex;
+    align-items: center; /* 上下の中央で揃える */
+    gap: 15px;           /* タイトルとアイコンの間の隙間 */
+    /* ↑↑↑ ここを追加 ↑↑↑ */
+}
+
+/* シャープなタイトル部分（事業案内など）の設定 */
+.slide-caption-title {
+    font-family: sans-serif; /* シンプルでシャープなフォント */
+    font-size: 2rem; /* 大きく表示 */
+    font-weight: bold; /* 文字を太く */
+    
+    /* display: block; <- 横並びにするので不要になります */
+    
+    /* 文字が明るい画像の上でも見えやすいように、軽い影をつける（視認性向上） */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* ↓↓↓ ここを追加：シャープな矢印アイコンの設定 ↓↓↓ */
+.slide-caption-icon {
+    font-size: 2.5rem; /* タイトルよりも少し大きくして目立たせる */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* タイトルと同じ影をつける */
+    
+    /* ホバー時の動きのための設定 */
+    transition: transform 0.3s ease-out;
+}
+
+/* マウスが乗った時（hover）の動き：矢印が少し右に動く */
+.slide-link:hover .slide-caption-icon {
+    transform: translateX(10px); /* 右に10px移動させる */
+}
+/* ↑↑↑ ここを追加 ↑↑↑ */
+
+/* --- タブ切り替えのシステム --- */
+
+/* 基本的にすべてのタブコンテンツを隠す */
+.tab-content {
+    display: none;
+    /* アニメーション名を fadeSlidesX に変更し、少しスピードを上げます */
+    animation: slideInX 0.4s ease-out;
+}
+
+/* 'active' クラスがついた箱だけを表示する */
+.tab-content.active {
+    display: block;
+}
+
+/* ↓↓↓ 横からスライドインするアニメーションの定義 ↓↓↓ */
+@keyframes slideInX {
+    from { 
+        opacity: 0; 
+        transform: translateX(30px); /* 右から30pxずらした位置からスタート */
+    }
+    to { 
+        opacity: 1; 
+        transform: translateX(0);    /* 本来の位置（0）へ戻る */
+    }
+}
+
+/* --- 事業案内（特徴ブロック）のデザイン --- */
+
+.feature-box {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* うっすらとした上品な影 */
+    margin-top: 20px;
+    border-top: 4px solid #058f45; /* 上部に緑のラインを引いて引き締める */
+}
+
+/* 見出しのデザイン */
+.feature-box h3 {
+    color: #333333;
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #cccccc; /* 点線で区切る */
+}
+
+/* 「― 対応力・技術力」の部分を少し小さく、緑色で添える */
+.feature-subtitle {
+    font-size: 1.1rem;
+    color: #058f45;
+    font-weight: normal;
+    margin-left: 10px;
+}
+
+/* 本文のデザイン（読みやすさ重視） */
+.feature-text p {
+    line-height: 1.9; /* 行間を広めにとって読みやすく */
+    margin-bottom: 15px; /* 段落ごとの隙間 */
+    color: #444444; /* 真っ黒ではなく、少し柔らかいグレーに */
+    text-align: justify; /* 両端揃えにしてカッチリ見せる */
+}
+
+/* 最後の決意表明部分の強調デザイン */
+.feature-conclusion {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f0f5f0; /* 薄い緑の背景 */
+    border-left: 5px solid #058f45; /* 左に濃い緑のアクセント */
+    color: #058f45; /* 文字色も緑に */
+    font-weight: bold;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    text-align: center; /* 中央揃えで力強く */
+    border-radius: 0 8px 8px 0;
+}
+
+/* --- 会社情報タブのデザイン --- */
+
+.info-block {
+    margin-bottom: 50px; /* 各項目の間をしっかり開ける */
+}
+
+/* 項目ごとの見出しデザイン */
+.info-block h3 {
+    color: #058f45;
+    font-size: 1.3rem;
+    background-color: #f0f5f0; /* 薄い緑の背景帯 */
+    border-left: 5px solid #058f45;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+}
+
+/* 会社概要・社歴のテーブル */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+    border: 1px solid #e0e0e0;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #f9f9f9;
+    width: 25%; /* 見出しの幅を固定 */
+    font-weight: bold;
+    color: #333333;
+}
+
+.history-table th {
+    width: 20%; /* 社歴の年は少し狭めでOK */
+}
+
+/* --- 主な設備の段組みリスト（スマートなレイアウト） --- */
+.equipment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* CSS Gridを使って、画面幅に合わせて自動で2〜3列に並べます */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px; /* リスト間の隙間 */
+}
+
+.equipment-list li {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    padding: 10px 15px 10px 30px; /* 左側にアイコン用の余白をとる */
+    border-radius: 6px;
+    font-size: 0.95rem;
+    position: relative; /* アイコン配置の基準 */
+}
+
+/* 設備の左に小さな緑の丸を付ける */
+.equipment-list li::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background-color: #058f45;
+    border-radius: 50%;
+}
+
+/* --- Googleマップのレスポンシブ（スマホ対応）設定 --- */
+.map-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9の比率を維持する魔法の数字 */
+}
+
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px; /* 角を少し丸める */
+}
+
+/* --- 主な取引先（カード型グリッドレイアウト） --- */
+.partner-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* CSS Gridで、画面幅に合わせて自動で2〜3列に並べます */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 15px; /* カード同士の隙間 */
+}
+
+/* 取引先名が入る各カードのデザイン */
+.partner-list li {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-left: 5px solid #b7ecc4; /* 左側に優しい緑のアクセントライン */
+    padding: 15px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    color: #333333;
+    font-weight: bold; /* 会社名なので少し太字にして強調 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* （順不同・敬称略）のテキストデザイン */
+.partner-note {
+    text-align: right; /* 右寄せにする */
+    font-size: 0.85rem;
+    color: #666666;
+    margin-top: 10px;
+}
+
+/* --- タブのホバー時ポップアップ（ツールチップ） --- */
+
+/* 前提として、aタグを基準位置(relative)に設定する */
+.main-nav ul li a {
+    position: relative; 
+    /* ※元々あった padding や color などの設定はそのまま残してください */
+}
+
+/* ポップアップする小見出しの基本デザイン */
+.tab-tooltip {
+    position: absolute;
+    /* ↓↓↓ 上（bottom）から下（top）へ変更 ↓↓↓ */
+    top: 130%;        /* タブの少し「下」に配置する */
+    /* ↑↑↑ ここを変更 ↑↑↑ */
+    
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: normal;
+    padding: 6px 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 100; /* コンテンツの下に隠れないように最前面にする */
+    
+    /* アニメーションの準備（普段は透明で、少し上に上げておく） */
+    opacity: 0;
+    visibility: hidden;
+    
+    /* ↓↓↓ アニメーションの初期位置を逆（上に）する ↓↓↓ */
+    margin-top: -10px; 
+    /* ↑↑↑ ここを変更 ↑↑↑ */
+    
+    transition: all 0.3s ease;
+}
+
+/* ポップアップの「上に付く」吹き出しの尻尾（▲）を作る */
+.tab-tooltip::after {
+    content: '';
+    position: absolute;
+    
+    /* ↓↓↓ 尻尾の位置と向きを逆にする ↓↓↓ */
+    bottom: 100%; /* 箱の真上 */
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: #333333; /* 下向きの三角形（上底が色付き）にする */
+    /* ↑↑↑ ここを変更 ↑↑↑ */
+}
+
+/* ★カーソルが乗った時（hover）のアニメーション★ */
+.main-nav ul li a:hover .tab-tooltip {
+    opacity: 1;
+    visibility: visible;
+    
+    /* ↓↓↓ フワッと「下へ」下がるようにする ↓↓↓ */
+    margin-top: 0; 
+    /* ↑↑↑ ここを変更 ↑↑↑ */
+}
+
+/* --- お問い合わせタブのデザイン --- */
+
+/* 全体を囲む白い箱 */
+.contact-wrapper {
+    background-color: #ffffff;
+    padding: 50px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-top: 20px;
+    border-top: 4px solid #058f45; /* 上部に緑のアクセント */
+    text-align: center; /* 全体を中央寄せにして上品に */
+}
+
+/* 案内メッセージ */
+.contact-message {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: #333333;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+/* 連絡手段のカードを横に並べる */
+.contact-methods {
+    display: flex;
+    flex-wrap: wrap; /* 画面が狭い時は自動で改行させる */
+    justify-content: center;
+    gap: 30px; /* カード同士の隙間 */
+}
+
+/* 各カードのデザイン */
+.contact-method-item {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 20px 30px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    min-width: 250px;
+    text-align: left; /* 文字は左寄せ */
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* マウスが乗った時に少し浮き上がる演出 */
+.contact-method-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    border-color: #b7ecc4; /* 枠線を薄い緑に */
+}
+
+/* アイコンの設定 */
+.method-icon {
+    font-size: 2.8rem;
+    color: #058f45;
+    margin-right: 15px;
+}
+
+/* テキスト部分の設定 */
+.method-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.method-title {
+    font-size: 0.9rem;
+    color: #666666;
+    margin-bottom: 5px;
+}
+
+/* 電話番号やアドレスの部分は大きく太く */
+.method-data {
+    font-size: 1.4rem;
+    color: #333333;
+    font-weight: bold;
+    font-family: sans-serif;
+    letter-spacing: 1px; /* 番号が読みやすいように少し隙間をあける */
+}
+
+/* --- スマートフォン向けの調整 (画面幅600px以下) --- */
+@media screen and (max-width: 600px) {
+    /* ヘッダーの高さを少し抑える */
+    header {
+        height: 200px;
+    }
+    
+    /* ロゴをスマホサイズに小さくする */
+    #logo {
+        max-height: 70px;
+    }
+
+    /* ジャンプボタンを小さく、位置を微調整 */
+    .slide-link {
+        bottom: 15px;
+        right: 15px;
+    }
+    .slide-jump-button {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+    }
+
+    /* ★重要：タブを横並びではなく「縦並び」にする ★ */
+    .main-nav ul {
+        flex-direction: column; /* 縦に積む */
+        gap: 5px;
+        padding: 5px 10px;
+    }
+
+    .main-nav ul li a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        font-size: 0.95rem;
+        box-sizing: border-box;
+    }
+    
+    /* スマホではツールチップ（ホバー時の説明）を非表示にする */
+    .tab-tooltip {
+        display: none !important;
+    }
+}
+
+/* --- 看板犬ギャラリーのデザイン（和ませる装飾版） --- */
+.dog-gallery-section {
+    margin-top: 50px; /* 上のコンテンツとの距離 */
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 15px; /* 角を大きく丸くして柔らかく */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* ふんわりした影 */
+    text-align: center;
+    border: 2px solid #f0f5f0; /* 薄い緑の枠線で優しく */
+}
+
+.dog-gallery-section h3 {
+    color: #058f45; /* 企業のイメージカラー */
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.gallery-intro {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+/* 2枚を中央に寄せるフレックスボックス */
+.dog-flex {
+    display: flex;
+    justify-content: center; /* 中央寄せ */
+    gap: 30px; /* 画像間の隙間 */
+    flex-wrap: wrap; /* スマホでは縦並びに */
+}
+
+/* 写真を飾るカード（アルバム風） */
+.dog-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 300px; /* カードの最大幅 */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* マウスホバー時の和む演出 */
+.dog-card:hover {
+    transform: translateY(-5px) rotate(2deg); /* 浮かせて、少し傾ける */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.dog-photo {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* ★重要：正方形にトリミング */
+    overflow: hidden;
+    border-radius: 8px; /* 写真自体の角も丸く */
+    margin-bottom: 15px;
+}
+
+.dog-photo img {
+    width: 100%;
+    height: 100%;
+    /* ★重要：2,700×4,800の縦長画像を、正方形の枠いっぱいに綺麗に収める */
+    object-fit: cover; 
+}
+
+.dog-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+/* スマホ対応 */
+@media screen and (max-width: 600px) {
+    .dog-gallery-section {
+        padding: 20px;
+    }
+    .dog-flex {
+        gap: 20px;
+    }
+    .dog-card {
+        max-width: 100%; /* スマホでは横幅いっぱい */
+    }
+}
+
+/* モーダルの基本状態（隠しておく） */
+.modal-css {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    display: none; /* 通常は非表示 */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ★ここがポイント：リンクで指定されたIDが「ターゲット」になった時だけ表示 */
+.modal-css:target {
+    display: flex;
+}
+
+/* モーダルの中身 */
+.modal-window {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    max-width: 80%;
+}
+
+.modal-window img {
+    max-width: 100%;
+    max-height: 70vh;
+}
+
+/* 閉じるボタンとオーバーレイ（背景）のクリックで閉じる処理 */
+.modal-overlay {
+    position: absolute;
+    width: 100%; height: 100%;
+    cursor: default;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 30px;
+    text-decoration: none;
+    color: #333;
+}
+
+/* --- 理念セクションの強化版 --- */
+.intro-hero {
+    text-align: center; /* すべてを中央揃えに */
+    padding: 80px 40px; /* 上下の余白を広げて「大きさ」を出す */
+    background: #ffffff;
+    border-top: 5px solid #058f45; /* 上に太いラインを入れて区切りを明確に */
+    border-bottom: 5px solid #058f45; /* 下にもラインを入れて「箱」感を出す */
+    margin: 40px auto;
+    max-width: 900px; /* 横幅を制限して、中央にギュッと凝縮させる */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+}
+
+.hero-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #058f45;
+    letter-spacing: 0.3em;
+    margin-bottom: 20px;
+}
+
+.intro-hero h2 {
+    font-size: 2.8rem; /* 大きく、力強く */
+    color: #058f45; /* 企業のメインカラーに変更して目立たせる */
+    margin: 0;
+    line-height: 1.3;
+    font-weight: 900; /* 極太に */
+}
+
+.hero-divider {
+    width: 100px;
+    height: 4px;
+    background-color: #333;
+    margin: 30px auto; /* センター寄せ */
+}
+
+.hero-lead {
+    font-size: 1.3rem; /* 読みやすく大きく */
+    color: #333;
+    line-height: 2;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+/* アイコンを横並びで整列 */
+.hero-features {
+    display: flex;
+    justify-content: center; /* アイコンを中央に寄せる */
+    gap: 60px; /* アイコン同士の間隔を広く取る */
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    color: #058f45;
+}
+
+/* アイコン自体のサイズを大きく */
+.feature-item .material-symbols-outlined {
+    font-size: 3.5rem; 
+    margin-bottom: 12px;
+    background-color: #f0f5f0; /* アイコンの背景に薄い緑の丸を入れる */
+    padding: 20px;
+    border-radius: 50%;
+}
+
+.feature-item span:not(.material-symbols-outlined) {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* スマホ対応：画面が狭いときは縦に並べる */
+@media screen and (max-width: 600px) {
+    .intro-hero { padding: 40px 20px; }
+    .intro-hero h2 { font-size: 1.8rem; }
+    .hero-features { 
+        flex-direction: column; 
+        gap: 30px; 
+    }
+}
