@@ -156,19 +156,19 @@ header h1 img {
 /* 各スライド画像の個別設定（仮の画像URLを使用します） */
 .slide1 {
     /* 工場の外観のイメージ */
-    background-image: url('slide1.png');
+    background-image: url('slide1.jpg');
     /* アニメーションの遅延時間（1枚目はすぐ表示） */
     animation-delay: 0s;
 }
 .slide2 {
     /* 製造現場のイメージ（溶接など） */
-    background-image: url('slide2.png');
+    background-image: url('slide2.jpg');
     /* 2枚目は全時間の1/3経過したタイミングでフェードインさせる */
     animation-delay: 5s;
 }
 .slide3 {
     /* 完成した金属製品のイメージ */
-    background-image: url('slide3.png');
+    background-image: url('slide3.jpg');
     /* 3枚目は全時間の2/3経過したタイミングでフェードインさせる */
     animation-delay: 10s;
 }
